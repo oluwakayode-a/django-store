@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" id="checkout-form">
+    <input type="text" name="name" id="order-name" value="{{ request.user.get_full_name }}">
+    <input type="email" name="email" id="order-email" value="{{ request.user.email }}">
+    <input type="hidden" value="{{ price }}" name="price">
+    <button></button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelector('#checkout-form').addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        let name = document.querySelector('#order-name').value
+        let email = document.querySelector('#order-email').value
+        let token = '{{ csrf_token }}'
+
+        try {
+            const response = await fetch("/store/checkout", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": token
+                }
+            })
+            let data = await response.json()
+            console.log(data)
+        } catch (error) {
+            console.log('Error occured')
+        }
+        
+    })
+</script>
+
+{% endblock %}

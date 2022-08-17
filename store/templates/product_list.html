@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Products</h2>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }}</li>
+            <a href="{% url 'store:product_detail' product.slug %}">View Product</a>
+
+            <form action="">
+                <a href="{% url 'store:product_detail' product.slug %}">Add to Cart</a>
+            </form>
+        {% endfor %}
+    </ul>
+{% endblock %}
